@@ -5,34 +5,41 @@ const { Server } = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 
-const io = new Server(server,{
-  cors:{
-    origin:"*"
+const io = new Server(server, {
+  cors: {
+    origin: "*"
   }
 });
 
-io.on("connection",(socket)=>{
+// 🔥 MUST HAVE ROUTE
+app.get("/", (req, res) => {
+  res.status(200).send("🚀 Video Call Server is Running");
+});
 
-  socket.on("join-room",(roomId)=>{
+io.on("connection", (socket) => {
+  console.log("User Connected:", socket.id);
+
+  socket.on("join-room", (roomId) => {
     socket.join(roomId);
-
     socket.to(roomId).emit("user-joined");
   });
 
-  socket.on("offer",(data)=>{
-    socket.to(data.roomId).emit("offer",data);
+  socket.on("offer", (data) => {
+    socket.to(data.roomId).emit("offer", data);
   });
 
-  socket.on("answer",(data)=>{
-    socket.to(data.roomId).emit("answer",data);
+  socket.on("answer", (data) => {
+    socket.to(data.roomId).emit("answer", data);
   });
 
-  socket.on("candidate",(data)=>{
-    socket.to(data.roomId).emit("candidate",data);
+  socket.on("candidate", (data) => {
+    socket.to(data.roomId).emit("candidate", data);
   });
-
 });
 
-server.listen(3000,()=>{
-  console.log("Server Running");
+// 🔥 IMPORTANT FOR RENDER
+const PORT = process.env.PORT || 10000;
+
+server.listen(PORT, () => {
+  console.log("Server Running on", PORT);
 });

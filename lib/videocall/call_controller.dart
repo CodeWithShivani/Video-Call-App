@@ -27,10 +27,10 @@ class CallController extends GetxController {
     socketService.joinRoom(roomId);
 
     _listenSocketEvents();
+
     await _getUserMedia();
     await _createPeerConnection();
   }
-
   void _listenSocketEvents() {
     socketService.socket.on("offer", (data) async {
       await handleOffer(data);

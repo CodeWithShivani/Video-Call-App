@@ -27,15 +27,29 @@ class BillingScreen extends StatefulWidget {
 }
 
 class _BillingScreenState extends State<BillingScreen> {
-  // Mock Product Database matching scanned barcodes to real goods
+
   final Map<String, Map<String, dynamic>> _mockProductDB = {
     "50501234": {"name": "50-50 Biscuit", "price": 5.00},
     "76222108": {"name": "Bourbon", "price": 10.00},
-    "76222105": {"name": "Dairy Milk", "price": 40.00},
-    "89012345": {"name": "Gobbles Cake", "price": 15.00},
-    "8904063240194": {"name": "Namkeen Bhujiya", "price": 5.00},
+    "8901491101178": { "name": "Lays Classic Salted 52g", "price": 20.00 },
+    "8901491101185": { "name": "Lays Classic Salted 28g", "price": 10.00 },
+    "8901491101116": { "name": "Kurkure Masala Munch 22g", "price": 5.00 },
+    "8901491101123": { "name": "Kurkure Masala Munch 62g", "price": 20.00 },
+    "8901725111056": { "name": "Sunfeast Gobbles Chocolate Cake (Single)", "price": 10.00 },
+    "8901233011485": { "name": "Cadbury Dairy Milk 13.2g (Mini)", "price": 10.00 },
+    "8901233011492": { "name": "Cadbury Dairy Milk 24g", "price": 20.00 },
+    "8901233011515": { "name": "Cadbury Dairy Milk 36g", "price": 40.00 },
+    "8904063240194": { "name": "Haldiram Bhujia 18g Small Pack", "price": 5.00 },
+    "8904063240071": { "name": "Haldiram Bhujia Sev 38g", "price": 10.00 },
+    "8904063200051": { "name": "Haldiram Aloo Bhujia 200g", "price": 60.00 },
+    "8904004400052": { "name": "Haldiram Bhujia Sev 600g", "price": 150.00 },
     "8908015201233": {"name": "Jeera Papad", "price": 5.00},
+    "8901491100026": { "name": "Oreo Chocolate Biscuit 24g (Mini Pack)", "price": 10.00 },
+    "8901491100033": { "name": "Oreo Chocolate Biscuit 67g Pack", "price": 30.00 },
+    "8901491100040": { "name": "Oreo Chocolate Biscuit 120g Pack", "price": 50.00 },
+    "8901491100057": { "name": "Oreo Chocolate Biscuit Family Pack", "price": 100.00 },
   };
+  // "8904063240194": {"name": "Namkeen Bhujiya", "price": 5.00},
 
   final List<CartItem> _cartItems = [];
   bool _isScanningLocked = false;

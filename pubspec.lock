@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  circular_menu:
+    dependency: "direct main"
+    description:
+      name: circular_menu
+      sha256: "2969127a4fcad1a1366e667925b4492f6dda94702b426ee2c15ab1a3f1fb060e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   clock:
     dependency: transitive
     description:
@@ -217,14 +225,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.24.1"
-  floating_action_bubble:
-    dependency: "direct main"
-    description:
-      name: floating_action_bubble
-      sha256: "760fd392eaf01e5bccf58889ceaf98d3e90f51066a7efd426d5db5888528931a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.4"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -238,6 +238,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -368,6 +373,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.2"
   iris_method_channel:
     dependency: transitive
     description:
@@ -480,6 +493,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.3"
+  month_year_picker:
+    dependency: "direct main"
+    description:
+      name: month_year_picker
+      sha256: "0990a698061ce4f421ba4f2163895dae5ea88a2f2ff09294f0d77d7c9e6c0491"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0+1"
   path:
     dependency: transitive
     description:

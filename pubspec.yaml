@@ -47,7 +47,8 @@ dependencies:
 #  blue_thermal_printer: ^1.2.3
   qr_flutter: ^4.1.0
   agora_rtc_engine: ^6.5.4
-  floating_action_bubble: ^1.1.4
+  circular_menu: 4.0.0
+  month_year_picker: 0.5.0+1
 
 dev_dependencies:
   flutter_test:

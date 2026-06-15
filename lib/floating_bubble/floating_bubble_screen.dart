@@ -1,4 +1,4 @@
-import 'package:floating_action_bubble/floating_action_bubble.dart';
+import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,71 +10,81 @@ class FloatingBubbleScreen extends GetView<FloatingBubbleController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation:
-      FloatingActionButtonLocation.endFloat,
-
-      floatingActionButton: Obx(
-            () => FloatingActionBubble(
-              animation: controller.animation,
-              onPress: controller.toggleBubble,
-              iconColor: Colors.white,
-              backGroundColor: Colors.blue,
-              iconData: Icons.text_fields,
-              items: <Bubble>[
-
-            Bubble(
-              title: "Language",
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.language,
-              titleStyle: const TextStyle(
-                  color: Colors.white),
-              onPress: () {
-                controller.toggleBubble();
-                print("Language");
-              },
+      appBar: AppBar(
+        title: const Text("Floating Bubble Example"),
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              children: [
+                const Text('Your Screen Content'),
+                ElevatedButton(
+                  onPressed: () => controller.pickMonth(context),
+                  child: const Text("Pick Month"),
+                )
+              ],
             ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: 200,
+                height: 200,
+                child:CircularMenu(
+                  alignment: Alignment.bottomCenter,
+                  radius: 100,
+                  startingAngleInRadian: 3.14,
+                  endingAngleInRadian: 6.28,
 
-            Bubble(
-              title: "Copy",
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.copy,
-              titleStyle: const TextStyle(
-                  color: Colors.white),
-              onPress: () {
-                controller.toggleBubble();
-                print("Copy");
-              },
-            ),
+                  // Main toggle button style configuration
+                  toggleButtonColor: Colors.blue,
+                  toggleButtonIconColor: Colors.white,
+                  toggleButtonSize: 40, // Base size of the center button
 
-            Bubble(
-              title: "Share",
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.share,
-              titleStyle: const TextStyle(
-                  color: Colors.white),
-              onPress: () {
-                controller.toggleBubble();
-                print("Share");
-              },
+                  items: [
+                    CircularMenuItem(
+                      icon: Icons.language,
+                      color: Colors.blue,
+                      iconColor: Colors.white,
+                      onTap: () {
+                        print("Language clicked");
+                      },
+                    ),
+                    CircularMenuItem(
+                      icon: Icons.copy,
+                      color: Colors.blue,
+                      iconColor: Colors.white,
+                      onTap: () {
+                        print("Copy clicked");
+                      },
+                    ),
+                    CircularMenuItem(
+                      icon: Icons.share,
+                      color: Colors.blue,
+                      iconColor: Colors.white,
+                      onTap: () {
+                        print("Share clicked");
+                      },
+                    ),
+                    CircularMenuItem(
+                      icon: Icons.undo,
+                      color: Colors.blue,
+                      iconColor: Colors.white,
+                      onTap: () {
+                        print("Undo clicked");
+                      },
+                    ),
+                  ],
+                )
+              ),
             ),
-
-            Bubble(
-              title: "Undo",
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.undo,
-              titleStyle: const TextStyle(
-                  color: Colors.white),
-              onPress: () {
-                controller.toggleBubble();
-                print("Undo");
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

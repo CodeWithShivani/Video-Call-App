@@ -1,5 +1,6 @@
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:videocallapp/videocall/video_controller.dart';
@@ -101,7 +102,25 @@ class VideoCallPage extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(Icons.call_end),
                     color: Colors.white,
-                    onPressed: () => Get.back(),
+                    onPressed: ()
+                    async {
+                        final confirm = await Get.dialog<bool>(
+                          AlertDialog(
+                            title: const Text("End Call?"),
+                            actions: [
+                              TextButton(onPressed: () => Get.back(result: false), child: const Text("Cancel")),
+                              TextButton(onPressed: () => Get.back(result: true), child: const Text("End")),
+                            ],
+                          ),
+                        );
+
+                        if (confirm == true) {
+                          await controller.endCall();
+                          SystemNavigator.pop();
+
+                        }
+
+                    },
                   ),
                 ),
                 const SizedBox(width: 20),

@@ -73,7 +73,7 @@ class VideoCallController extends GetxController {
     await engine.joinChannel(
       token: '007eJxTYKj9H2K29EFyveHMD5UhZv9ZjO9fETi/PGVfjLx2TX/F9AgFBkMTY/MkA4sk89QkExMjc/Ok5JSU1ERjY+O0xESDlNS0OZP0sxoCGRm2swUxMzJAIIjPwVCUn58bb2hgyMAAAPXIIL8=',
       channelId: channelName,
-      uid: 1002, // 0 lets Agora auto-assign a UID
+      uid: 1001, // 0 lets Agora auto-assign a UID
       options: const ChannelMediaOptions(
         channelProfile: ChannelProfileType.channelProfileCommunication,
         clientRoleType: ClientRoleType.clientRoleBroadcaster,
@@ -98,9 +98,23 @@ class VideoCallController extends GetxController {
 
   @override
   void onClose() {
-    // Clean up resources automatically when the controller leaves memory
     engine.leaveChannel();
     engine.release();
     super.onClose();
+  }
+
+  Future<void> endCall() async {
+    try {
+      await engine.leaveChannel();
+      await engine.stopPreview();
+      await engine.release();
+
+      remoteUid.value = 0;
+      localUserJoined.value = false;
+      isMuted.value = false;
+      isCameraOff.value = false;
+    } catch (e) {
+      print("Error ending call: $e");
+    }
   }
 }

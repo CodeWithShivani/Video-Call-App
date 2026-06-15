@@ -40,11 +40,9 @@ class FloatingBubbleScreen extends GetView<FloatingBubbleController> {
                   radius: 100,
                   startingAngleInRadian: 3.14,
                   endingAngleInRadian: 6.28,
-
-                  // Main toggle button style configuration
                   toggleButtonColor: Colors.blue,
                   toggleButtonIconColor: Colors.white,
-                  toggleButtonSize: 40, // Base size of the center button
+                  toggleButtonSize: 40,
 
                   items: [
                     CircularMenuItem(
@@ -89,3 +87,39 @@ class FloatingBubbleScreen extends GetView<FloatingBubbleController> {
     );
   }
 }
+
+
+/*Obx(() {
+return IndexedStack(
+index: tabs.indexOf(controller.selectedTab.value),
+children: [
+Tab1View(),
+Tab2View(),
+Tab3View(),
+Tab4View(),
+],
+);
+})*/
+
+
+
+/*Expanded(
+child: Obx(() {
+switch (controller.selectedTab.value) {
+case "Tab1":
+return Tab1Screen();
+
+case "Tab2":
+return Tab2Screen();
+
+case "Tab3":
+return Tab3Screen();
+
+case "Tab4":
+return Tab4Screen();
+
+default:
+return const SizedBox();
+}
+}),
+),*/

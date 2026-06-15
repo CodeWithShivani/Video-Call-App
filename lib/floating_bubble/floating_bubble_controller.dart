@@ -33,14 +33,14 @@ class FloatingBubbleController extends GetxController  with GetSingleTickerProvi
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: Colors.orange, // Header & selected month
-              onPrimary: Colors.white, // Text on header
-              surface: Colors.white,   // Dialog background
-              onSurface: Colors.black, // Normal text
+              primary: Colors.orange,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: Colors.black,
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                foregroundColor: Colors.orange, // OK & Cancel buttons
+                foregroundColor: Colors.orange,
               ),
             ),
           ),

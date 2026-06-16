@@ -1,4 +1,5 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -12,7 +13,18 @@ class VideoCallController extends GetxController {
   var localUserJoined = false.obs;
   var remoteUid = 0.obs; // 0 means no remote user has connected yet
   var isMuted = false.obs;
+  var isGroup = false.obs;
   var isCameraOff = false.obs;
+  // group call
+  RxList<int> remoteUids = <int>[].obs;
+  RxBool isGroupCall = false.obs;
+  RxBool isEngineReady = false.obs;
+
+  void setCallType(bool groupCall) {
+    isGroupCall.value = groupCall;
+  }
+
+
 
   Future<void> initAgora(String channelName) async {
     // 1. Request device permissions
@@ -35,7 +47,17 @@ class VideoCallController extends GetxController {
 
         onUserJoined: (connection, uid, elapsed) {
           print("Remote Joined : $uid");
-          remoteUid.value = uid;
+          // remoteUid.value = uid;
+
+          if (isGroupCall.value) {
+            if (!remoteUids.contains(uid)) {
+              remoteUids.add(uid);
+            }
+
+          } else {
+            remoteUid = uid.obs;
+          }
+
         },
 
         onUserOffline: (connection, uid, reason) {
@@ -54,6 +76,26 @@ class VideoCallController extends GetxController {
       ),
     );
 
+//grouping call
+ /*   await engine.startScreenCapture(
+      const ScreenCaptureParameters2(
+        captureVideo: true,
+        captureAudio: true,
+      ),
+    );
+
+    await engine.stopScreenCapture();
+
+    FirebaseFirestore.instance
+        .collection("meetings")
+        .doc("room_101")
+        .collection("chat")
+        .add({
+      "msg": "jj",
+      "sender": 1001,
+      "time": Timestamp.now(),
+    });*/
+
 
     await engine.enableVideo();
 
@@ -69,7 +111,21 @@ class VideoCallController extends GetxController {
     await engine.enableVideo();
     await engine.startPreview();
 
+
+    // =======================
+    await engine.enableVideo();
+    await engine.setChannelProfile(
+    ChannelProfileType.channelProfileCommunication,
+    );
+
+    await engine.setClientRole(
+    role: ClientRoleType.clientRoleBroadcaster,
+    );
+
+    isEngineReady.value = true;
+
     // In a production app, fetch a dynamic token. For testing, use null or a temp token.
+    setCallType(false);
     await engine.joinChannel(
       token: '007eJxTYKj9H2K29EFyveHMD5UhZv9ZjO9fETi/PGVfjLx2TX/F9AgFBkMTY/MkA4sk89QkExMjc/Ok5JSU1ERjY+O0xESDlNS0OZP0sxoCGRm2swUxMzJAIIjPwVCUn58bb2hgyMAAAPXIIL8=',
       channelId: channelName,
@@ -89,6 +145,10 @@ class VideoCallController extends GetxController {
   void toggleMute() {
     isMuted.value = !isMuted.value;
     engine.muteLocalAudioStream(isMuted.value);
+  }
+  void toggleGroupCalling() {
+    isGroup.value = !isGroup.value;
+    engine.muteLocalAudioStream(isGroup.value);
   }
 
   void toggleCamera() {

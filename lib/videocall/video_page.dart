@@ -16,14 +16,38 @@ class VideoCallPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-
       body: Stack(
         children: [
           Center(
-            child: Obx(() {
-              print("Remote UID = ${controller.remoteUid.value}");
+            child:
+            Obx(() {
+              if (controller.isGroup.value) {
+                debugPrint("Group video call");
+                return GridView.builder(
+                  itemCount: controller.remoteUids.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                  ),
+                  itemBuilder: (context, index) {
+                    final uid = controller.remoteUids[index];
+                    return AgoraVideoView(
+                      controller: VideoViewController.remote(
+                        rtcEngine: controller.engine,
+                        canvas: VideoCanvas(uid: uid),
+                        connection: RtcConnection(channelId: channelName),
+                      ),
+                    );
+                  },
+                );
+              } else {
+                debugPrint("single video call");
+                if (controller.remoteUid.value == 0) {
+                  return const Text(
+                    "Waiting for the other device to connect...",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  );
+                }
 
-              if (controller.remoteUid.value != 0) {
                 return AgoraVideoView(
                   controller: VideoViewController.remote(
                     rtcEngine: controller.engine,
@@ -32,46 +56,10 @@ class VideoCallPage extends StatelessWidget {
                   ),
                 );
               }
-
-              return const Text(
-                "Waiting for the other device to connect...",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              );
             }),
+
+
           ),
-
-         /* Obx(() {
-            final total = controller.remoteUids.length + 1;
-
-            return GridView.builder(
-              itemCount: total,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: total <= 2 ? 1 : 2,
-              ),
-
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return AgoraVideoView(
-                    controller: VideoViewController(
-                      rtcEngine: controller.engine,
-                      canvas: const VideoCanvas(uid: 0),
-                    ),
-                  );
-                }
-
-                final uid = controller.remoteUids[index - 1];
-
-                return AgoraVideoView(
-                  controller: VideoViewController.remote(
-                    rtcEngine: controller.engine,
-                    canvas: VideoCanvas(uid: uid),
-                    connection:  RtcConnection(channelId: channelName),
-                  ),
-                );
-              },
-            );
-          }),*/
-
           Positioned(
             top: 50,
             right: 20,
@@ -82,14 +70,20 @@ class VideoCallPage extends StatelessWidget {
               child: Container(
                 color: Colors.grey[900],
                 child: Obx(() {
-                  if (controller.localUserJoined.value &&
-                      !controller.isCameraOff.value) {
+                  if (!controller.isEngineReady.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  // controller.localUserJoined.value &&
+
+                  if (!controller.isCameraOff.value) {
                     return AgoraVideoView(
                       controller: VideoViewController(
                         rtcEngine: controller.engine,
                         canvas: const VideoCanvas(
                           uid: 0,
-                        ), // 0 renders local stream
+                        ),
                       ),
                     );
                   } else {
@@ -178,17 +172,19 @@ class VideoCallPage extends StatelessWidget {
                   const SizedBox(width: 20),
                   CircleAvatar(
                     backgroundColor: controller.isGroup.value
-                        ?Colors.grey[800]: Colors.red,
+                        ? Colors.grey[800]
+                        : Colors.red,
                     radius: 24,
                     child: IconButton(
                       icon: Icon(
-                        controller.isGroup.value ? Icons.group : Icons.group_off,
+                        controller.isGroup.value
+                            ? Icons.group
+                            : Icons.group_off,
                       ),
                       color: Colors.white,
                       onPressed: controller.toggleGroupCalling,
                     ),
                   ),
-
                 ],
               ),
             ),
